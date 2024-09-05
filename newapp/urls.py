@@ -16,4 +16,5 @@ urlpatterns = [
     path("profile", render_profile, name="profile"),
     path("useandpay", render_use_and_pay, name="use_and_pay"),
     path("eliteplus", render_elite_plus, name="elite_plus"),
+    path("logout", render_logout, name="logout"),
 ]
