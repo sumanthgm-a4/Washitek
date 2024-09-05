@@ -1,0 +1,269 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <style>
+        .banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 400px; /* Adjust the height as needed */
+            overflow: hidden;
+            z-index: -2; /* Ensure it stays above other content */
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the entire div */
+        }
+
+        .background-shape {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 28vh;
+            background: #006666;
+            clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 100%);
+            z-index: -1; /* Ensure it stays behind other content */
+        }
+
+        @media (max-width: 768px) {
+            .background-shape {
+                height: 25vh; /* Adjust height for smaller screens */
+                clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <img src="{% static 'images/background2.png' %}" alt="Banner Image">
+    </div>
+    <div class="background-shape"></div>
+    <div class="container-fluid p-0 m-0" style="background-color: transparent;">
+        <div class="row m-0">
+            <div class="col-lg-9">
+                <div class="row m-0" style="background-color: transparent;">
+                    <div class="col-3 col-lg-1 logo-bg bg-transparent me-5">
+                        <a href="{% url 'home' %}"><img src="{% static 'images/logo_w.png' %}" height="100" alt=""></a>
+                    </div>
+                    <div class="col-7 d-block d-lg-none col-lg-0 px-1 py-4">
+                        <div class="d-flex justify-content-center">
+                            <div>
+                                <a href="{% url 'login' %}" class="btn text-white btn-bg mx-2 rounded-pill "
+                                    style="background: #006666;">Login</a>
+                            </div>
+                            <div>
+                                <a href="{% url 'register' %}" class="btn btn-light mx-2 rounded-pill">Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 px-1 py-2 menu-bar bg-white ">
+                        <div class="d-flex justify-content-center">
+                            <a href="{% url 'home' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Home</a>
+                            <a href="{% url 'about' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">About</a>
+                            <a href="{% url 'services' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Services</a>
+                            <a href="{% url 'pricing' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Pricing</a>
+                            <a href="{% url 'contact' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr n-active">Contact</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="d-none d-lg-block col-lg-4 px-1 py-4">
+                        <div class="d-flex justify-content-center">
+                            <a href="{% url 'login' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
+                                style="background: #ffffff;">Login</a>
+                            <div>
+                                <a href="{% url 'register' %}" class="btn px-4 rounded-pill text-white"
+                                    style="background: #006666;">Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="row m-0">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10 mt-2">
+                <div class="container">
+                    <div class="row p-0 m-0">
+                        <div class="col-lg-6" style="background-color: rgb(254, 255, 255);">
+                            <div class="container m-5 p-4"></div>
+                            <div class="container rounded mt-5 p-2">
+                                <form class="container-fluid col-lg-12 text-dark p-1" method="POST" id="signupForm">
+                                    <div class="row m-0">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-10">
+                                            <div class="row m-0">
+                                                <div class="mb-3 ps-0 pe-2 col-lg-6">
+
+                                                    <input type="text" id="first-name" name="first-name"
+                                                        placeholder="First Name"
+                                                        style="outline: none; border-radius: 0%; border-top: none;border-left: none;border-right: none;border-bottom-width: 2px;width: 100%;">
+                                                </div>
+                                                <div class="mb-3 px-0 col-lg-6  ">
+
+                                                    <input type="text" id="lat-name" name="last-name"
+                                                        placeholder="Last Name"
+                                                        style="outline: none; border-radius: 0%; border-top: none;border-left: none;border-right: none;border-bottom-width: 2px;width: 100%;">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+
+                                                <input type="text" id="mobile" name="mobile" placeholder="Mobile"
+                                                    style="outline: none; border-radius: 0%; border-top: none;border-left: none;border-right: none;border-bottom-width: 2px;width: 100%;">
+                                            </div>
+                                            <div class="mb-3">
+                                                <div>
+                                                    <input type="email" id="email" name="email" placeholder="Email"
+                                                        style="outline: none; border-radius: 0%; border-top: none;border-left: none;border-right: none;border-bottom-width: 2px;width: 100%;">
+                                                </div>
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <textarea id="message" name="message" placeholder="Message"
+                                                    style="outline: none; border-radius: 0%; border-top: none;border-left: none;border-right: none;border-bottom-width: 2px;width: 100%;"></textarea>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn button-bg text-white fw-bold"
+                                                    style="background: #006666;">Send Message</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1"></div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <p></p>
+                                    </div>
+                                    <div id="validations" class="small collapse">
+                                        <p class="mt-2 fw-light">Note:</p>
+                                        <ul>
+                                            <li>
+                                                <p>use your org/college mail</p>
+                                            </li>
+                                            <li>
+                                                <p>Username should be unique</p>
+                                            </li>
+                                            <li>
+                                                <p>Password should be greater than 8 characters</p>
+                                            </li>
+                                            <li>
+                                                <p>Password should contain atleast one special character</p>
+                                            </li>
+                                            <li>
+                                                <p>Password should contain alpha numeric values</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="container m-5 p-4"></div>
+
+                        </div>
+                        <div class="col-lg-6" style="background-color: #003333;">
+                            <div class="container p-4"></div>
+                            <div class="row m-0">
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-10">
+                                    <div class="container text-light rounded mt-2 p-2"
+                                        style="background-color: #003333;">
+                                        <div class="container p-4"></div>
+                                        <div class="row m-0">
+                                            <div class="col-lg-1">
+                                                <i class="fa-solid fa-location-dot fa-xl me-2"
+                                                    style="color: #ffffff;"></i>
+                                            </div>
+                                            <div class="col-lg-11">
+
+                                                <div class="d-flex">
+
+                                                    <h5>OUR ADDRESS :</h5>
+                                                </div>
+                                                <p>Shobavana campus <br> Moodbidri Mangalore- 574227</p>
+                                            </div>
+                                        </div>
+                                        <div class="continer p-3"></div>
+                                        <div class="row m-0">
+                                            <div class="col-lg-1">
+                                                <i class="fa-solid fa-phone fa-xl me-2" style="color: #ffffff;"></i>
+                                            </div>
+                                            <div class="col-lg-11">
+
+                                                <div class="d-flex">
+
+                                                    <h5>OUR CONTACT NO :</h5>
+                                                </div>
+                                                <p>+91 8310813568</p>
+                                            </div>
+                                        </div>
+                                        <div class="continer p-3"></div>
+                                        <div class="row m-0">
+                                            <div class="col-lg-1">
+                                                <i class="fa-solid fa-envelope fa-xl me-2" style="color: #ffffff;"></i>
+                                            </div>
+                                            <div class="col-lg-11">
+
+                                                <div class="d-flex">
+
+                                                    <h5>OUR MAIL BOX :</h5>
+                                                </div>
+                                                <p>support@washitec.services</p>
+                                            </div>
+                                        </div>
+                                        <div class="continer p-4"></div>
+                                        <div class="row m-0">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-11">
+                                                <div class="text-center">
+                                                    <div>
+                                                        <img class="px-2" src="{% static 'images/social.png' %}" height="30" alt=""
+                                                            srcset="">
+                                                        <img class="px-2" src="{% static 'images/instagram.png' %}" height="30" alt=""
+                                                            srcset="">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+        <div class="row m-0">
+            <div class="col-lg-12 p-3">
+
+            </div>
+        </div>
+
+        {% include 'footer.html' %}
+    </div>
+</body>
+<script src="https://kit.fontawesome.com/dedeab9b5a.js" crossorigin="anonymous"></script>
+</html>

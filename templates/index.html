@@ -1,0 +1,249 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+        <style>
+            .banner {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 400px; /* Adjust the height as needed */
+                overflow: hidden;
+                z-index: -2; /* Ensure it stays above other content */
+            }
+    
+            .banner img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Ensures the image covers the entire div */
+            }
+    
+            .background-shape {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 28vh;
+                background: #006666;
+                clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 100%);
+                z-index: -1; /* Ensure it stays behind other content */
+            }
+    
+            @media (max-width: 768px) {
+                .background-shape {
+                    height: 25vh; /* Adjust height for smaller screens */
+                    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+                }
+            }
+        </style>
+</head>
+
+<body>
+    <div class="banner">
+        <img src="{% static 'images/background2.png' %}" alt="Banner Image">
+    </div>
+    <div class="background-shape"></div>
+    <div class="container-fluid p-0 m-0" style="background-color: transparent;">
+        <div class="row m-0">
+            <div class="col-lg-9">
+                <div class="row m-0" style="background-color: transparent;">
+                    <div class="col-3 col-lg-1 logo-bg bg-transparent me-5">
+                        <a href="{% url 'home' %}"><img src="{% static 'images/logo_w.png' %}" height="100" alt=""></a>
+                    </div>
+                    <div class="col-7 d-block d-lg-none col-lg-0 px-1 py-4">
+                        <div class="d-flex justify-content-center">
+                            <div>
+                                <a href="{% url 'login' %}" class="btn text-white btn-bg mx-2 rounded-pill "
+                                    style="background: #006666;">Login</a>
+                            </div>
+                            <div>
+                                <a href="{% url 'register' %}" class="btn btn-light mx-2 rounded-pill">Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 px-1 py-2 menu-bar bg-white ">
+                        <div class="d-flex justify-content-center">
+                            <a href="{% url 'home' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr n-active">Home</a>
+                            <a href="{% url 'about' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">About</a>
+                            <a href="{% url 'services' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Services</a>
+                            <a href="{% url 'pricing' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Pricing</a>
+                            <a href="{% url 'contact' %}"
+                                class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Contact</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="d-none d-lg-block col-lg-4 px-1 py-4">
+                        <div class="d-flex justify-content-center">
+                            <a href="{% url 'login' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
+                                style="background: #ffffff;">Login</a>
+                            <div>
+                                <a href="{% url 'register' %}" class="btn px-4 rounded-pill text-white"
+                                    style="background: #006666;">Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid mt-0 m-0">
+                    <div class="row m-0 mt-2">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-7">
+                            <div>
+                                <h2 class="title-professional px-3 fw-light green-font "
+                                    style="font-family: 'Times New Roman', Times, serif;font-size: 50px;">Professional
+                                    <br>Laundry Services
+                                </h2>
+                                <p>We will wash your clothes in order to save your valuable time. In addition, free
+                                    pick-up &
+                                    drop-off service are available. Perfect for our business customers</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-1" style="height:100%"></div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-10">
+                            <div class="container">
+                                <div class="outer-container">
+                                    <div class="bg-transparent caro-box">
+                                        <div id="carouselExampleAutoplaying"
+                                            class="carousel  carousel-dark slide pb-3 bg-transparent"
+                                            data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active bg-white rounded-5">
+                                                    <div class="container col-lg-12 p-1">
+                                                        <img style="object-fit: cover; border-radius: 20px;"
+                                                            src="{% static 'images/free_pick_up_corousel.jpg' %}"
+                                                            class="img-fluid ounded-5 d-block w-100" alt="...">
+                                                        <p class="text-center pt-3">Free Pick up</p>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item bg-white rounded-5">
+                                                    <div class="container col-lg-12 p-1">
+                                                        <img style="object-fit: cover; border-radius: 20px;"
+                                                            src="{% static 'images/fold_and_iron_corousel.png' %}"
+                                                            class="img-fluid ounded-5 d-block w-100" alt="...">
+                                                        <p class="text-center pt-3">Fold & Iron</p>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item bg-white rounded-5">
+                                                    <div class="container col-lg-12 p-1">
+                                                        <img src="{% static 'images/wash and dry png.png' %}"
+                                                            class="img-fluid rounded-5 d-block w-100" alt="..."
+                                                            alt="...">
+                                                        <p class="text-center pt-3">Wash and Dry</p>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item bg-white rounded-5">
+                                                    <div class="container col-lg-12 p-1">
+                                                        <img height="400"
+                                                            style="object-fit:contain;border-radius: 20px;"
+                                                            src="{% static 'images/Free Delivery png.png' %}"
+                                                            class="img-fluid rounded-5 d-block w-100" alt="...">
+                                                        <p class="text-center pt-3">Free Delivery</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button"
+                                                data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="container d-flex justify-content-center">
+                    <div class="row row-cols-lg-1 row-cols-2 m-0">
+                        <div class="col p-0 m-0">
+                            <div class="card d-flex justify-content-center card-margin mb-2 p-0 pt-2"
+                                style=" border-radius: 20px;">
+                                <div class="card-body px-2 pb-2 text-center">
+                                    <img src="{% static 'images/free_pick_up.png' %}" style="width: 50%; height: 50px;" alt="">
+                                    <p>Free pick up</p>
+                                    <div class=" px-1 py-2 rounded-2 text-light" style="background-color: #006666;">
+                                        <a href="{% url 'free_pickup' %}" class="text-decoration-none text-light"><div class=" text-start d-flex justify-content-center align-items-center">&nbsp;
+                                            <span>Read More</span>&nbsp;<i class="fa-solid fa-arrow-right"></i>
+                                        </div></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col p-0 m-0">
+                            <div class="card d-flex justify-content-center card-margin mb-2 p-0 pt-2"
+                                style=" border-radius: 20px;">
+                                <div class="card-body px-2 pb-2 text-center">
+                                    <img src="{% static 'images/wash_and_dry.png' %}" style="width: 50%; height: 50px;" alt="">
+                                    <p>Wash and dry</p>
+                                    <div class=" px-1 py-2 rounded-2 text-light" style="background-color: #006666;">
+                                        <a href="{% url 'wash_and_dry' %}" class="text-decoration-none text-light"><div class=" text-start d-flex justify-content-center align-items-center">&nbsp;
+                                            <span>Read More</span>&nbsp;<i class="fa-solid fa-arrow-right"></i>
+                                        </div></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col p-0 m-0">
+                            <div class="card d-flex justify-content-center card-margin mb-2 p-0 pt-2"
+                                style="border-radius: 20px;">
+                                <div class="card-body px-2 pb-2 text-center">
+                                    <img src="{% static 'images/fold_and_iron.png' %}" style="width: 50%; height: 50px;" alt="">
+                                    <p>Fold and Iron</p>
+                                    <div class=" px-1 py-2 rounded-2 text-light" style="background-color: #006666;">
+                                        <a href="{% url 'fold_and_iron' %}" class="text-decoration-none text-light"><div class=" text-start d-flex justify-content-center align-items-center">&nbsp;
+                                            <span>Read More</span>&nbsp;<i class="fa-solid fa-arrow-right"></i>
+                                        </div></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col p-0 m-0">
+                            <div class="card d-flex justify-content-center card-margin mb-2 p-0 pt-2"
+                                style="border-radius: 20px;">
+                                <div class="card-body px-2 pb-2 text-center">
+                                    <img src="{% static 'images/free_delivery.png' %}" style="width: 50%; height: 50px;" alt="">
+                                    <p>Free Delivery</p>
+                                    <div class=" px-1 py-2 rounded-2 text-light" style="background-color: #006666;">
+                                        <a href="{% url 'free_delivery' %}" class="text-decoration-none text-light"><div class=" text-start d-flex justify-content-center align-items-center">&nbsp;
+                                            <span>Read More</span>&nbsp;<i class="fa-solid fa-arrow-right"></i>
+                                        </div></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% include 'footer.html' %}
+    </div>
+</body>
+<script src="https://kit.fontawesome.com/dedeab9b5a.js" crossorigin="anonymous"></script>
+</html>
