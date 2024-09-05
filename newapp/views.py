@@ -30,7 +30,7 @@ def render_use_and_pay(request):
 
 def render_elite_plus(request):
     
-    return render(request, "elite_Plus.html")
+    return render(request, "elite_plus.html")
 
 
 def render_contact(request):
