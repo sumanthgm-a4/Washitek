@@ -91,13 +91,20 @@
                     <div class="col-lg-1"></div>
                     <div class="d-none d-lg-block col-lg-4 px-1 py-4">
                         <div class="d-flex justify-content-center">
-                            <a href="login.html" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
-                                style="background: #ffffff;">Login</a>
-                            <div>
-                                <a href="signup.html" class="btn px-4 rounded-pill text-white"
-                                    style="background: #006666;">Sign up</a>
-                            </div>
-                        </div>
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'profile' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
+                                    style="background: #ffffff;">Profile</a>
+                                <a href="{% url 'logout' %}" class="btn btn-light text-light  px-4 mx-2 rounded-pill "
+                                    style="background: #ff0000;">Logout</a>
+                            {% else %}
+                              <a href="{% url 'login' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
+                                  style="background: #ffffff;">Login</a>
+                              <div>
+                                  <a href="{% url 'register' %}" class="btn px-4 rounded-pill text-white"
+                                      style="background: #006666;">Sign up</a>
+                              </div>
+                              {% endif %}
+                          </div>
                     </div>
                 </div>
             </div>

@@ -109,18 +109,28 @@ def render_register(request):
         cname = request.POST['cname']
         branch = request.POST['branch']
         mobile = request.POST['mobile']
-        email = request.POST['email']
+        email = request.POST['email'] 
         passw = request.POST['passw']
         cpassw = request.POST['cpassw']
 
+        if len(mobile) != 10:
+            messages.error(request, 'Mobile number should be 10 digits')
+            return render(request, "signup.html")
+        
         if passw == cpassw:
-            if User.objects.filter(username=fname).exists():
-                return render(request, "signup.html", {'error': 'Username already exists'})
+            if User.objects.filter(username=email).exists():
+                messages.error(request, 'Email already exists')
+                return render(request, "signup.html")
+            elif Customer.objects.filter(mobile=mobile).exists():
+                messages.error(request, 'Mobile number already exists')
+                return render(request, "signup.html")
+            
             try:
-                user = User.objects.create_user(username=fname, password=passw, email=email, first_name=fname, last_name=lname)
+                user = User.objects.create_user(username=email, password=passw, email=email, first_name=fname, last_name=lname)
                 user.save()
                 obj = Customer(userobj=user, gender=gender, year=year, college=cname, branch=branch, mobile=mobile)
                 obj.save()
+                messages.success(request, 'User created successfully')
                 return redirect("login")  
             except IntegrityError:
                 return render(request, "signup.html", {'error': 'An error occurred while creating the user'})

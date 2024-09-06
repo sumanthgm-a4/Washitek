@@ -104,14 +104,14 @@
         <div class="col-lg-7"></div>
         <div class="container">
             <div class="container col-lg-6 bg-light d-flex justify-content-center bg-register rounded mt-2 p-4 shadow">
-                <form class="container-fluid col-lg-12 text-dark p-1" method="POST" id="signupForm">
+                <form class="container-fluid col-lg-12 text-dark p-1" method="POST" id="signupForm">{% csrf_token %}
                     <div>
                         <h3 class="pt-5 text-dark fw-bold text-center p-lg-0 playwrite-nz-h3">Create your Account</h3>
                     </div>
                     <div class="row">
                         <div class="mb-3 col-lg-6">
                             <div><i class="fa-solid fa-f fa-lg px-2" style="color:black;"></i><label
-                                    for="exampleInputUser1" class="form-label">- First name</label></div>
+                                    for="fname" class="form-label">- First name</label></div>
                             <input type="text" class="form-control" name="fname" id="fname"
                                 aria-describedby="emailHelp required">
 
@@ -119,7 +119,7 @@
                         </div>
                         <div class="mb-3 col-lg-6  ">
                             <div><i class="fa-solid fa-l fa-lg px-2" style="color:black;"></i><label
-                                    for="exampleInputUser1" class="form-label">- Last name</label></div>
+                                    for="lname" class="form-label">- Last name</label></div>
                             <input type="text" class="form-control" name="lname" id="lname" aria-describedby="emailHelp"
                                 required>
 
@@ -127,38 +127,38 @@
                     </div>
                     <div class="row">
                         <div class="mb-3 col-lg-6">
-                            <div><label for="exampleInputUser1" class="form-label">Gender</label></div>
-                            <input type="text" class="form-control" name="fname" id="fname"
+                            <div><label for="gender" class="form-label">Gender</label></div>
+                            <input type="text" class="form-control" name="gender" id="gender"
                                 aria-describedby="emailHelp required">
 
                         </div>
                         <div class="mb-3 col-lg-6  ">
-                            <div><label for="exampleInputUser1" class="form-label">Year</label></div>
-                            <input type="text" class="form-control" name="lname" id="lname" aria-describedby="emailHelp"
+                            <div><label for="year" class="form-label">Year</label></div>
+                            <input type="text" class="form-control" name="year" id="year" aria-describedby="emailHelp"
                                 required>
 
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <div><i class="fa-solid fa-graduation-cap px-2" style="color:black;"></i><label for="usernameInput"
+                        <div><i class="fa-solid fa-graduation-cap px-2" style="color:black;"></i><label for="cname"
                                 class="form-label">College</label></div>
-                        <input type="text" class="form-control" name="uname" id="usernameInput"
+                        <input type="text" class="form-control" name="cname" id="cname"
                             aria-describedby="emailHelp" required>
 
                     </div>
 
                     <div class="mb-3">
-                        <div><i class="fa-regular fa-building px-2" style="color:black;"></i><label for="usernameInput"
+                        <div><i class="fa-regular fa-building px-2" style="color:black;"></i><label for="branch"
                                 class="form-label">Branch</label></div>
-                        <input type="text" class="form-control" name="uname" id="usernameInput"
+                        <input type="text" class="form-control" name="branch" id="branch"
                             aria-describedby="emailHelp" required>
 
                     </div>
                     <div class="mb-3">
-                        <div><i class="fa-solid fa-phone px-2" style="color: black;"></i><label for="usernameInput"
+                        <div><i class="fa-solid fa-phone px-2" style="color: black;"></i><label for="mobile"
                                 class="form-label">Mobile Number</label></div>
-                        <input type="text" class="form-control" name="uname" id="usernameInput"
+                        <input type="text" class="form-control" name="mobile" id="mobile"
                             aria-describedby="emailHelp" required>
 
                     </div>
@@ -176,7 +176,7 @@
                         <label for="exampleInputPassword1" class="form-label">Enter Password</label>
                         <div class="d-flex" style="border: 1px solid rgba(0, 0, 0, 0.267);border-radius: 5px;">
                             <input type="password" class="form-control border-0 bg-transparent"
-                                style="border-width: 2px;" id="password">
+                                style="border-width: 2px;" id="password" name="passw">
                             <button class="btn border-0" id="togglePassword" type="button"><i class="fa-solid fa-eye"
                                     style="color: #000000;"></i></button>
                         </div>
@@ -186,7 +186,7 @@
                         <label for="exampleInputPassword1" class="form-label">Re-enter Password</label>
                         <div class="d-flex" style="border: 1px solid rgba(0, 0, 0, 0.267);border-radius: 5px;">
                             <input type="password" class="form-control border-0 bg-transparent"
-                                style="border-width: 2px;" id="password1">
+                                style="border-width: 2px;" id="password1" name="cpassw">
                             <button class="btn border-0" id="togglePassword1" type="button"><i class="fa-solid fa-eye"
                                     style="color: #000000;"></i></button>
                         </div>
