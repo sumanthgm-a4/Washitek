@@ -6,6 +6,18 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.db.utils import IntegrityError
+from random import randint
+
+
+# items = {
+#     "comfort extra": 5,
+#     "dettol extra": 10,
+#     "iron": 10,
+#     "bed spread": 40,
+#     "medium blanket": 70,
+#     "large blanket": 100,
+# }
+
 
 # Create your views here.
 def render_home(request):
@@ -94,6 +106,11 @@ def render_login(request):
     return render(request, "login.html")
 
 
+def render_forgot_password(request):
+    
+    return render(request, "forgot_pass.html")
+
+
 def render_logout(request):
     
     logout(request)
@@ -126,18 +143,51 @@ def render_register(request):
                 return render(request, "signup.html")
             
             try:
-                user = User.objects.create_user(username=email, password=passw, email=email, first_name=fname, last_name=lname)
+                user = User.objects.create_user(username=email, password=passw, email=email, first_name=fname, last_name=lname, is_active=False)
                 user.save()
                 obj = Customer(userobj=user, gender=gender, year=year, college=cname, branch=branch, mobile=mobile)
                 obj.save()
-                messages.success(request, 'User created successfully')
-                return redirect("login")  
+                send_otp(request=request, email=email, username=user.username)
+                return redirect("otp")  
             except IntegrityError:
                 return render(request, "signup.html", {'error': 'An error occurred while creating the user'})
         else:
             return render(request, "signup.html", {'error': 'Passwords do not match'})
     else:
         return render(request, "signup.html")
+    
+
+def send_otp(request, email, username):
+    otp = str(randint(100000, 999999))
+    request.session['otp'] = otp
+    request.session['username'] = username
+    # print(request.session['username'], request.session['otp'])
+    send_mail(from_email='sumanthgm12345@gmail.com', 
+        subject=f"OTP for {email}", 
+        message=otp, 
+        recipient_list=[email], 
+        fail_silently=False)
+    return
+    
+    
+def render_otp(request):
+    
+    if request.method == "POST":
+        otp = request.POST.get("otpfield")
+        print(otp)
+        print(request.session['username'])
+        user = User.objects.get(username=request.session['username'])
+        print(user)
+        if request.session['otp'] == otp:
+            print("Yes")
+            user.is_active = True
+            user.save()
+            request.session.clear()
+            messages.success(request, 'User created successfully')
+            return redirect("login")
+        messages.error(request, 'Invalid OTP')
+        return redirect("otp")
+    return render(request, "otp.html")
 
 
 def render_free_pickup(request):
