@@ -15,20 +15,26 @@ class Customer(models.Model):
         return self.userobj.first_name + " " + self.userobj.last_name
     
 
-class Item(models.Model):
-    item = models.CharField(max_length=50)
-    price = models.FloatField()
+# class Item(models.Model):
+#     item = models.CharField(max_length=50)
+#     price = models.FloatField()
     
-    def __str__(self):
-        return self.item + " " + str(self.price)
+#     def __str__(self):
+#         return self.item + " " + str(self.price)
     
     
 # Custom ManyToMany relationship between User and Item
 class Order(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
-    itemobj = models.ForeignKey(Item, on_delete=models.CASCADE)
+    # itemobj = models.ForeignKey(Item, on_delete=models.CASCADE)
     orderdatetime = models.DateTimeField(auto_now_add=True)
-    quantity = models.IntegerField()
+    clothes = models.IntegerField()
+    comfort = models.BooleanField()
+    dettol = models.BooleanField()
+    iron = models.IntegerField()
+    bedspread = models.IntegerField()
+    mediumblanket = models.IntegerField()
+    largeblanket = models.IntegerField()
     totalprice = models.FloatField()
     status = models.CharField(max_length=15, default="Received")
     
@@ -50,7 +56,6 @@ class YearlyUser(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     amt_left = models.FloatField(default=10000)
     datetime = models.DateTimeField(auto_now_add=True)
-    comf_dettol = models.BooleanField()
     isActive = models.BooleanField()
     
     def __str__(self):
@@ -61,7 +66,6 @@ class MonthlyUser(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     amt_left = models.FloatField(default=3000)
     datetime = models.DateTimeField(auto_now_add=True)
-    comf_dettol = models.BooleanField()
     isActive = models.BooleanField()
     
     def __str__(self):

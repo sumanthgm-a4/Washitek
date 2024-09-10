@@ -9,17 +9,19 @@ from django.db.utils import IntegrityError
 from random import randint
 
 
-# items = {
-#     "comfort extra": 5,
-#     "dettol extra": 10,
-#     "iron": 10,
-#     "bed spread": 40,
-#     "medium blanket": 70,
-#     "large blanket": 100,
-# }
+items = {
+    "clothes": 40,
+    "comfort": 5,
+    "dettol": 10,
+    "iron": 10,
+    "bedspread": 40,
+    "mediumblanket": 70,
+    "largeblanket": 100,
+}
 
 
 # Create your views here.
+
 
 def get_plan(request):
     
@@ -335,3 +337,63 @@ def render_plan(request):
             return redirect("home")
     
     return render(request, "plan.html", {"uses_a_plan": get_plan(request)})
+
+
+@login_required(login_url="login")
+def render_order(request):
+    
+    clothes = int(request.POST.get("clothes"))
+    comfort = int(request.POST.get("comfort"))
+    dettol = int(request.POST.get("dettol"))
+    iron = int(request.POST.get("iron"))
+    bedspread = int(request.POST.get("bedspread"))
+    mediumblanket = int(request.POST.get("mediumblanket"))
+    largeblanket = int(request.POST.get("largeblanket"))
+    
+    user = request.user
+    totalprice = clothes*items["clothes"] + \
+                    comfort*items["comfort"] + \
+                    dettol*items["dettol"] + \
+                    iron*items["iron"] + \
+                    bedspread*items["bedspread"] + \
+                    mediumblanket*items["mediumblanket"] + \
+                    largeblanket*items["largeblanket"]
+    
+    order = Order(
+        userobj=user, 
+        clothes=clothes, 
+        comfort=comfort, 
+        dettol=dettol, 
+        iron=iron, 
+        bedspread=bedspread, 
+        mediumblanket=mediumblanket, 
+        largeblanket=largeblanket, 
+        totalprice=totalprice
+    )
+    
+    if YearlyUser.objects.filter(userobj=user).exists():
+        if YearlyUser.objects.get(userobj=user).isActive:
+            user = YearlyUser.objects.get(userobj=user)
+            user.amt_left -= totalprice
+            user.save()
+            order.save()
+            messages.success(request, "Order placed successfully")
+            return redirect("home")
+        elif CreditUser.objects.get(userobj=user).isActive:
+            user = CreditUser.objects.get(userobj=user)
+            user.credit_left -= totalprice
+            user.save()
+            order.save()
+            messages.success(request, "Order placed successfully")
+            return redirect("home")
+        elif MonthlyUser.objects.get(userobj=user).isActive:
+            user = MonthlyUser.objects.get(userobj=user)
+            user.amt_left -= totalprice
+            user.save()
+            order.save()
+            messages.success(request, "Order placed successfully")
+            return redirect("home")        
+    else:
+        messages.warning(request, "Please choose a plan")
+        return redirect("plan")
+    
