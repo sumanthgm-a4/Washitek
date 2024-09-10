@@ -101,6 +101,13 @@
                 </div>
             </div>
         </div>
+        <div class="container col-lg-6">
+            {% for i in messages %}
+                <div class="alert alert-{{ i.tags }}" role="alert">
+                    {{ i }}
+                </div>
+            {% endfor %}
+        </div>
         <div class="col-lg-7"></div>
         <div class="container">
             <div class="container col-lg-6 bg-light d-flex justify-content-center bg-register rounded mt-2 p-4 shadow">
