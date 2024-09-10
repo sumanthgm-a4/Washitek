@@ -55,14 +55,14 @@ def render_pricing(request):
     return render(request, "pricing.html")
 
 
-def render_use_and_pay(request):
+def render_credit(request):
     
-    return render(request, "use_and_pay.html")
+    return render(request, "credit.html")
 
 
 def render_elite_plus(request):
     
-    return render(request, "elite_plus.html")
+    return render(request, "elite_plus.html", {"uses_a_plan": get_plan(request)})
 
 
 def render_contact(request):
@@ -121,11 +121,12 @@ def render_login(request):
                 login(request, user)
                 if user.is_superuser or user.is_staff:
                     return redirect('/admin')
+                messages.success(request, 'Logged in successfully')
                 return redirect('home') 
             else:
                 messages.error(request, 'Invalid credentials')
         else:
-            messages.error(request, 'Invalid identifier')
+            messages.error(request, 'User does not exist')
 
     return render(request, "login.html")
 
@@ -157,6 +158,7 @@ def render_passwordotp(request):
         user = User.objects.get(username=request.session['username'])
         if request.session['otp'] == otp:
             request.session['otp_validated'] = True
+            messages.success(request, 'OTP validated successfully')
             return redirect("change_password")
         messages.error(request, 'Invalid OTP')
         return redirect("password_otp")
@@ -174,10 +176,12 @@ def render_change_password(request):
             user.set_password(password)
             user.save()
             request.session.clear()
+            messages.success(request, 'Password changed successfully')
             return redirect('login')
         messages.error(request, 'Passwords do not match')
         return render(request, "change_pass.html")
     return render(request, "change_pass.html")
+
 
 def render_logout(request):
     

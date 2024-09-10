@@ -66,6 +66,13 @@
         <div class="row m-0">
             <div class="col-lg-9">
                 {% include 'navbar.html' %}
+                <div class="container col-lg-6">
+                    {% for i in messages %}
+                        <div class="alert alert-{{ i.tags }}" role="alert">
+                            {{ i }}
+                        </div>
+                    {% endfor %}
+                </div>
                 <div class="container-fluid mt-0 m-0">
                     <div class="row m-0 mt-2">
                         <div class="col-lg-1"></div>

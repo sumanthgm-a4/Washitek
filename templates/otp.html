@@ -66,28 +66,35 @@
       <div class="col-lg-9">
         {% include 'navbar.html' %}
         <div class="container col-lg-6">
-          <br>
-          <div class="card">
-            <div class="card-header">
-              <h3>Please enter the OTP sent to your email</h3>
-            </div>
-            <form method="POST"> {% csrf_token %}
-              <div class="card-body">
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label"></label>
-                  <input type="text" name="otpfield" autocomplete="false" class="form-control" id="exampleInputPassword1">
-                </div>
-              </div>
-              <div class="card-footer">
-                <button type="submit" class="btn btn-success">Verify</button>
-              </div>
-            </form>
+          <div class="container col-lg-6"></div>
+          {% for i in messages %}
+          <div class="alert alert-{{ i.tags }}" role="alert">
+            {{ i }}
           </div>
+          {% endfor %}
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-header">
+            <h3>Please enter the OTP sent to your email</h3>
+          </div>
+          <form method="POST"> {% csrf_token %}
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label"></label>
+                <input type="text" name="otpfield" autocomplete="false" class="form-control" id="exampleInputPassword1">
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-success">Verify</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <br><br><br>
-    {% include 'footer.html' %}
+  </div>
+  <br><br><br>
+  {% include 'footer.html' %}
   </div>
 
 </body>

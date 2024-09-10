@@ -30,7 +30,7 @@ class Order(models.Model):
     orderdatetime = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField()
     totalprice = models.FloatField()
-    status = models.CharField(max_length=15)
+    status = models.CharField(max_length=15, default="Received")
     
     def __str__(self):
         return self.userobj.first_name + " " + self.userobj.last_name + " -> " + self.itemobj.item + " " + str(self.quantity) + " no.s"
