@@ -20,4 +20,6 @@ urlpatterns = [
     path("eliteplus", render_elite_plus, name="elite_plus"),
     path("logout", render_logout, name="logout"),
     path("plan", render_plan, name="plan"),
+    path('changepassword', render_change_password, name='change_password'),
+    path('otpverify',render_passwordotp,name='password_otp'),
 ]

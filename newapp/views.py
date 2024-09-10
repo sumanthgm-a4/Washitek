@@ -130,27 +130,54 @@ def render_login(request):
     return render(request, "login.html")
 
 
-def render_reset_password(request):
-    pass    
-#     if request.method == 'POST':
-#         identifier = request.POST.get('identifier')
-#         user = None
-#         if '@' in identifier:
-#             user = User.objects.filter(email=identifier)[0]
-#         else:
-#             user = Customer.objects.filter(mobile=identifier)[0].userobj
-#         if user:
-#             send_otp(
-#                 request=request,
-#                 email=user.email,
-#                 username=user.username
-#             )
-#             return redirect('otp')
-#         messages.error(request, 'Invalid identifier')
-#         return render(request, "reset_pass.html")
-    
-#     return render(request, "reset_pass.html")
+def render_reset_password(request):  
+    if request.method == 'POST':
+        identifier = request.POST.get('identifier')
+        user = None
+        if '@' in identifier:
+            user = User.objects.filter(email=identifier)[0]
+        else:
+            user = Customer.objects.filter(mobile=identifier)[0].userobj
+        if user:
+            send_otp(
+                request=request,
+                email=user.email,
+                username=user.username
+            )
+            messages.success(request, 'Otp sent successfully')
+            return redirect('password_otp')
+        messages.error(request, 'Invalid identifier')
+        return render(request, "reset_pass.html")
+    return render(request, "reset_pass.html")
 
+
+def render_passwordotp(request):
+    if request.method == "POST":
+        otp = request.POST.get("otpfield")
+        user = User.objects.get(username=request.session['username'])
+        if request.session['otp'] == otp:
+            request.session['otp_validated'] = True
+            return redirect("change_password")
+        messages.error(request, 'Invalid OTP')
+        return redirect("password_otp")
+    return render(request, "pass_otp.html")
+
+
+def render_change_password(request):
+    if not request.session.get('otp_validated'):
+        return redirect('reset_password')
+    if request.method == "POST":
+        password = request.POST.get('passw')
+        cpassword = request.POST.get('cpassw')
+        if password == cpassword:
+            user = User.objects.get(username=request.session['username'])
+            user.set_password(password)
+            user.save()
+            request.session.clear()
+            return redirect('login')
+        messages.error(request, 'Passwords do not match')
+        return render(request, "change_pass.html")
+    return render(request, "change_pass.html")
 
 def render_logout(request):
     
