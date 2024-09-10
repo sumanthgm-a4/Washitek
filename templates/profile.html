@@ -64,7 +64,12 @@
             <div class="card-body">
                 <h5><strong>Name of the customer: </strong>{{ obj.userobj.first_name }}  {{ obj.userobj.last_name }}</h5>
                 <h5><strong>Email: </strong> {{ obj.userobj.email }}</h5>
-                <h5><strong>Acive Plan: </strong>{{ uses_a_plan }}</h5>
+                <h5><strong>Active Plan: </strong>{{ uses_a_plan }}</h5>
+                {% if uses_a_plan == "Credit Plan" %}
+                    <h5><strong>Credit Left: </strong>{{ amt }}/-</h5>
+                {% else %}
+                    <h5><strong>Amount Left: </strong>{{ amt }}/-</h5>
+                {% endif %}
                 <h5><strong>Branch: </strong>{{ obj.branch }} - {{ obj.year }}</h5>
                 <h5><strong>College: </strong>{{ obj.college }}</h5>
                 <h5><strong>Mobile No.: </strong>{{ obj.mobile }}</h5>

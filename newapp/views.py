@@ -22,6 +22,9 @@ items = {
 
 # Create your views here.
 
+def check_plan_expired(request):
+    pass
+
 
 def get_plan(request):
     
@@ -36,6 +39,7 @@ def get_plan(request):
             uses_a_plan = "Credit Plan"
             
     return uses_a_plan
+    
     
 def render_home(request):
     
@@ -188,6 +192,7 @@ def render_change_password(request):
 def render_logout(request):
     
     logout(request)
+    messages.success(request, 'Logged out successfully')
     return redirect("login")
 
 
@@ -294,9 +299,21 @@ def render_free_delivery(request):
 @login_required(login_url="login")
 def render_profile(request):
     
+    amt = None
     user = Customer.objects.get(userobj=request.user)
+    if get_plan(request) == "Monthly Plan":
+        planuser = MonthlyUser.objects.get(userobj=request.user)
+        amt = planuser.amt_left
+    elif get_plan(request) == "Yearly Plan":
+        planuser = YearlyUser.objects.get(userobj=request.user)
+        amt = planuser.amt_left
+    elif get_plan(request) == "Credit Plan":
+        planuser = CreditUser.objects.get(userobj=request.user)
+        amt = planuser.credit_left
+    else:
+        amt = "N/A"
     
-    return render(request, "profile.html", {"obj": user, "uses_a_plan": get_plan(request)})
+    return render(request, "profile.html", {"obj": user, "uses_a_plan": get_plan(request), "amt": amt})
 
 
 def render_plan(request):
@@ -342,58 +359,82 @@ def render_plan(request):
 @login_required(login_url="login")
 def render_order(request):
     
-    clothes = int(request.POST.get("clothes"))
-    comfort = int(request.POST.get("comfort"))
-    dettol = int(request.POST.get("dettol"))
-    iron = int(request.POST.get("iron"))
-    bedspread = int(request.POST.get("bedspread"))
-    mediumblanket = int(request.POST.get("mediumblanket"))
-    largeblanket = int(request.POST.get("largeblanket"))
+    if request.method == "POST":
+        clothes = int(request.POST.get("clothes"))
+        comfort = int(request.POST.get("comfort")) if request.POST.get("comfort") else 0
+        dettol = int(request.POST.get("dettol")) if request.POST.get("dettol") else 0
+        iron = int(request.POST.get("iron"))
+        bedspread = int(request.POST.get("bedspread"))
+        mediumblanket = int(request.POST.get("mediumblanket"))
+        largeblanket = int(request.POST.get("largeblanket"))
+        
+        print(clothes, comfort, dettol, iron, bedspread, mediumblanket, largeblanket)
+        
+        user = request.user
+        totalprice = clothes*items["clothes"] + \
+                        comfort*items["comfort"] + \
+                        dettol*items["dettol"] + \
+                        iron*items["iron"] + \
+                        bedspread*items["bedspread"] + \
+                        mediumblanket*items["mediumblanket"] + \
+                        largeblanket*items["largeblanket"]
+        
+        order = Order(
+            userobj=user, 
+            clothes=clothes, 
+            comfort=comfort, 
+            dettol=dettol, 
+            iron=iron, 
+            bedspread=bedspread, 
+            mediumblanket=mediumblanket, 
+            largeblanket=largeblanket, 
+            totalprice=totalprice
+        )
+        
+        if YearlyUser.objects.filter(userobj=user).exists():
+            if YearlyUser.objects.get(userobj=user).isActive:
+                user = YearlyUser.objects.get(userobj=user)
+                if user.amt_left < totalprice:
+                    messages.error(request, "Insufficient balance")
+                    return redirect("home")
+                user.amt_left -= totalprice
+                user.save()
+                order.save()
+                print(order.orderdatetime)
+                messages.success(request, "Order placed successfully")
+                return redirect("home")
+            elif CreditUser.objects.get(userobj=user).isActive:
+                user = CreditUser.objects.get(userobj=user)
+                if user.credit_left < totalprice:
+                    messages.error(request, "Insufficient credit")
+                    return redirect("home")
+                user.credit_left -= totalprice
+                user.save()
+                order.save()
+                print(order.orderdatetime)
+                messages.success(request, "Order placed successfully")
+                return redirect("home")
+            elif MonthlyUser.objects.get(userobj=user).isActive:
+                user = MonthlyUser.objects.get(userobj=user)
+                if user.amt_left < totalprice:
+                    messages.error(request, "Insufficient balance")
+                    return redirect("home")
+                user.amt_left -= totalprice
+                user.save()
+                order.save()
+                print(order.orderdatetime)
+                messages.success(request, "Order placed successfully")
+                return redirect("home")        
+        else:
+            messages.warning(request, "Please choose a plan")
+            return redirect("plan")
+    
+    return render(request, "add_ones.html", {"uses_a_plan": get_plan(request)})
+
+
+def render_view_orders(request):
     
     user = request.user
-    totalprice = clothes*items["clothes"] + \
-                    comfort*items["comfort"] + \
-                    dettol*items["dettol"] + \
-                    iron*items["iron"] + \
-                    bedspread*items["bedspread"] + \
-                    mediumblanket*items["mediumblanket"] + \
-                    largeblanket*items["largeblanket"]
+    orders = Order.objects.filter(userobj=user)
     
-    order = Order(
-        userobj=user, 
-        clothes=clothes, 
-        comfort=comfort, 
-        dettol=dettol, 
-        iron=iron, 
-        bedspread=bedspread, 
-        mediumblanket=mediumblanket, 
-        largeblanket=largeblanket, 
-        totalprice=totalprice
-    )
-    
-    if YearlyUser.objects.filter(userobj=user).exists():
-        if YearlyUser.objects.get(userobj=user).isActive:
-            user = YearlyUser.objects.get(userobj=user)
-            user.amt_left -= totalprice
-            user.save()
-            order.save()
-            messages.success(request, "Order placed successfully")
-            return redirect("home")
-        elif CreditUser.objects.get(userobj=user).isActive:
-            user = CreditUser.objects.get(userobj=user)
-            user.credit_left -= totalprice
-            user.save()
-            order.save()
-            messages.success(request, "Order placed successfully")
-            return redirect("home")
-        elif MonthlyUser.objects.get(userobj=user).isActive:
-            user = MonthlyUser.objects.get(userobj=user)
-            user.amt_left -= totalprice
-            user.save()
-            order.save()
-            messages.success(request, "Order placed successfully")
-            return redirect("home")        
-    else:
-        messages.warning(request, "Please choose a plan")
-        return redirect("plan")
-    
+    return render(request, "view_orders.html", {"orders": orders, "uses_a_plan": get_plan(request)})

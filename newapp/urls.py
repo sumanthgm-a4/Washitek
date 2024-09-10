@@ -22,4 +22,6 @@ urlpatterns = [
     path("plan", render_plan, name="plan"),
     path('changepassword', render_change_password, name='change_password'),
     path('otpverify',render_passwordotp,name='password_otp'),
+    path('order',render_order,name='order'),
+    path('vieworder', render_view_orders, name='view_orders'),
 ]

@@ -14,47 +14,47 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-        <style>
-            .banner {
-                position: fixed;
-                top: 0;
-                width: 100%;
-                height: 400px;
-                /* Adjust the height as needed */
-                overflow: hidden;
-                z-index: -2;
-                /* Ensure it stays above other content */
-            }
-    
-            .banner img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                /* Ensures the image covers the entire div */
-            }
-    
-            .background-shape {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 28vh;
-                background: #006666;
-                clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 100%);
-                z-index: -1;
-                /* Ensure it stays behind other content */
-            }
+    <style>
+        .banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 400px;
+            /* Adjust the height as needed */
+            overflow: hidden;
+            z-index: -2;
+            /* Ensure it stays above other content */
+        }
 
-            
-    
-            @media (max-width: 768px) {
-                .background-shape {
-                    height: 25vh;
-                    /* Adjust height for smaller screens */
-                    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
-                }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensures the image covers the entire div */
+        }
+
+        .background-shape {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 28vh;
+            background: #006666;
+            clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 100%);
+            z-index: -1;
+            /* Ensure it stays behind other content */
+        }
+
+
+
+        @media (max-width: 768px) {
+            .background-shape {
+                height: 25vh;
+                /* Adjust height for smaller screens */
+                clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
             }
-        </style>
+        }
+    </style>
 </head>
 
 <body>
@@ -68,16 +68,29 @@
                 {% include 'navbar.html' %}
                 <div class="container col-lg-6">
                     {% for i in messages %}
-                        <div class="alert alert-{{ i.tags }}" role="alert">
-                            {{ i }}
-                        </div>
+                    <div class="alert alert-{{ i.tags }}" role="alert">
+                        {{ i }}
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="container-fluid mt-0 m-0">
                     <div class="row m-0 mt-2">
+                        {% if user.is_authenticated %}
+                        <div align="center">
+                            <div>
+                                <a href="{% url 'order' %}">
+                                    <button class="btn btn-primary">Order Services</button>
+                                </a>
+                                <a href="{% url 'view_orders' %}">
+                                    <button class="btn btn-primary">View your orders</button>
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <br>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-7">
-                            <div>
+                            <div><br>
                                 <h2 class="title-professional px-3 fw-light green-font "
                                     style="font-family: 'Times New Roman', Times, serif;font-size: 50px;">Professional
                                     <br>Laundry Services

@@ -39,7 +39,7 @@ class Order(models.Model):
     status = models.CharField(max_length=15, default="Received")
     
     def __str__(self):
-        return self.userobj.first_name + " " + self.userobj.last_name + " -> " + self.itemobj.item + " " + str(self.quantity) + " no.s"
+        return self.userobj.first_name + " " + self.userobj.last_name + " " + str(self.clothes) + " no.s" + " " + str(self.totalprice)
 
 
 class CreditUser(models.Model):
