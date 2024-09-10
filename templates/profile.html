@@ -51,61 +51,11 @@
   </div>
   <div class="background-shape"></div>
   <div class="container-fluid m-0 p-0" style="background-color: transparent;">
-      <div class="row m-0">
-          <div class="col-lg-9">
-              <div class="row m-0" style="background-color: transparent;">
-                  <div class="col-3 col-lg-1 logo-bg bg-transparent me-5">
-                      <a href="{% url 'home' %}"><img src="{% static 'images/logo_w.png' %}" height="100" alt=""></a>
-                  </div>
-                  <div class="col-7 d-block d-lg-none col-lg-0 px-1 py-4">
-                    <div class="d-flex justify-content-center">
-                        {% if request.user.is_authenticated %}
-                        <a href="{% url 'profile' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
-                            style="background: #ffffff;">Profile</a>
-                        <a href="{% url 'logout' %}" class="btn btn-light text-light  px-4 mx-2 rounded-pill "
-                            style="background: #ff0000;">Logout</a>
-                        {% else %}
-                        <div>
-                            <a href="{% url 'login' %}" class="btn text-white btn-bg mx-2 rounded-pill "
-                                style="background: #006666;">Login</a>
-                        </div>
-                        <div>
-                            <a href="{% url 'register' %}" class="btn btn-light mx-2 rounded-pill">Sign up</a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                  <div class="col-lg-5 px-1 py-2 menu-bar bg-white ">
-                      <div class="d-flex justify-content-center">
-                          <a href="{% url 'home' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Home</a>
-                          <a href="{% url 'about' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">About</a>
-                          <a href="{% url 'services' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Services</a>
-                          <a href="{% url 'pricing' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Pricing</a>
-                          <a href="{% url 'contact' %}" class="a bg-transparent px-2 text-decoration-none py-2 nav-item txt-clr">Contact</a>
-                      </div>
-                  </div>
-                  <div class="col-lg-1"></div>
-                  <div class="d-none d-lg-block col-lg-4 px-1 py-4">
-                      <div class="d-flex justify-content-center">
-                        {% if request.user.is_authenticated %}
-                            <a href="{% url 'profile' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
-                                style="background: #ffffff;">Profile</a>
-                            <a href="{% url 'logout' %}" class="btn btn-light text-light  px-4 mx-2 rounded-pill "
-                                style="background: #ff0000;">Logout</a>
-                        {% else %}
-                          <a href="{% url 'login' %}" class="btn btn-light text-dark  px-4 mx-2 rounded-pill "
-                              style="background: #ffffff;">Login</a>
-                          <div>
-                              <a href="{% url 'register' %}" class="btn px-4 rounded-pill text-white"
-                                  style="background: #006666;">Sign up</a>
-                          </div>
-                          {% endif %}
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-3"></div>
-      </div>
+    <div class="row m-0">
+        <div class="col-lg-9">
+            {% include 'navbar.html' %}
+        </div>
+    </div>
       <div class="container col-lg-5" style="padding-top: 10px;">
         <div class="card">
             <div class="card-header">
@@ -114,6 +64,7 @@
             <div class="card-body">
                 <h5><strong>Name of the customer: </strong>{{ obj.userobj.first_name }}  {{ obj.userobj.last_name }}</h5>
                 <h5><strong>Email: </strong> {{ obj.userobj.email }}</h5>
+                <h5><strong>Acive Plan: </strong>{{ uses_a_plan }}</h5>
                 <h5><strong>Branch: </strong>{{ obj.branch }} - {{ obj.year }}</h5>
                 <h5><strong>College: </strong>{{ obj.college }}</h5>
                 <h5><strong>Mobile No.: </strong>{{ obj.mobile }}</h5>
@@ -121,7 +72,7 @@
           </div>
         </div>
       </div>
-      <br><br><br>
+      <br><br>
       {% include 'footer.html' %}
     </div>
       

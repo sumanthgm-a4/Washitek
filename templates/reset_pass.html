@@ -69,13 +69,13 @@
           <br>
           <div class="card">
             <div class="card-header">
-              <h3>Please enter your registered email or mobile no.</h3>
+              <h3>Enter your registered email id or phone no.</h3>
             </div>
             <form method="POST"> {% csrf_token %}
               <div class="card-body">
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label"></label>
-                  <input type="text" name="identifier" class="form-control" id="exampleInputPassword1">
+                  <input type="text" name="identifier" autocomplete="false" class="form-control" id="exampleInputPassword1">
                 </div>
               </div>
               <div class="card-footer">

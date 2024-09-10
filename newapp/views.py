@@ -20,9 +20,24 @@ from random import randint
 
 
 # Create your views here.
+
+def get_plan(request):
+    
+    user= request.user
+    uses_a_plan = None
+    if user.is_authenticated and MonthlyUser.objects.filter(userobj=user).exists():
+        if MonthlyUser.objects.get(userobj=user).isActive:
+            uses_a_plan = "Monthly Plan"
+        elif YearlyUser.objects.get(userobj=user).isActive:
+            uses_a_plan = "Yearly Plan"
+        elif CreditUser.objects.get(userobj=user).isActive:
+            uses_a_plan = "Credit Plan"
+            
+    return uses_a_plan
+    
 def render_home(request):
     
-    return render(request, "index.html")
+    return render(request, "index.html", {"uses_a_plan": get_plan(request)})
 
 
 def render_about(request):
@@ -71,11 +86,16 @@ def render_contact(request):
 
 
 def render_login(request):
+    
     if request.user.is_authenticated:
         messages.error(request, 'YOU LOGGED IN...')
         return redirect('home')
     
+    if request.user.is_superuser or request.user.is_staff:
+        return redirect('admin')
+    
     if request.method == 'POST':
+        username = None
         identifier = request.POST['identifier']
         password = request.POST['passw']
         print(f"Identifier: {identifier}")
@@ -86,17 +106,21 @@ def render_login(request):
                 username = user.username
             except User.DoesNotExist:
                 username = None
-        else:
+        elif identifier.isdigit():
             try:
                 customer = Customer.objects.get(mobile=identifier)
                 username = customer.userobj.username
             except Customer.DoesNotExist:
                 username = None
+        elif User.objects.filter(username=identifier).exists():
+            username = identifier
 
         if username:
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                if user.is_superuser or user.is_staff:
+                    return redirect('/admin')
                 return redirect('home') 
             else:
                 messages.error(request, 'Invalid credentials')
@@ -106,9 +130,26 @@ def render_login(request):
     return render(request, "login.html")
 
 
-def render_forgot_password(request):
+def render_reset_password(request):
+    pass    
+#     if request.method == 'POST':
+#         identifier = request.POST.get('identifier')
+#         user = None
+#         if '@' in identifier:
+#             user = User.objects.filter(email=identifier)[0]
+#         else:
+#             user = Customer.objects.filter(mobile=identifier)[0].userobj
+#         if user:
+#             send_otp(
+#                 request=request,
+#                 email=user.email,
+#                 username=user.username
+#             )
+#             return redirect('otp')
+#         messages.error(request, 'Invalid identifier')
+#         return render(request, "reset_pass.html")
     
-    return render(request, "forgot_pass.html")
+#     return render(request, "reset_pass.html")
 
 
 def render_logout(request):
@@ -152,6 +193,7 @@ def render_register(request):
             except IntegrityError:
                 return render(request, "signup.html", {'error': 'An error occurred while creating the user'})
         else:
+            messages.error(request, 'Passwords do not match')
             return render(request, "signup.html", {'error': 'Passwords do not match'})
     else:
         return render(request, "signup.html")
@@ -161,7 +203,7 @@ def send_otp(request, email, username):
     otp = str(randint(100000, 999999))
     request.session['otp'] = otp
     request.session['username'] = username
-    # print(request.session['username'], request.session['otp'])
+    print(request.session['username'], request.session['otp'])
     send_mail(from_email='sumanthgm12345@gmail.com', 
         subject=f"OTP for {email}", 
         message=otp, 
@@ -219,7 +261,46 @@ def render_free_delivery(request):
 @login_required(login_url="login")
 def render_profile(request):
     
-    obj = None
-    if Customer.objects.filter(userobj=request.user).exists():
-        obj = Customer.objects.get(userobj=request.user)
-    return render(request, "profile.html", {"obj": obj})
+    user = Customer.objects.get(userobj=request.user)
+    
+    return render(request, "profile.html", {"obj": user, "uses_a_plan": get_plan(request)})
+
+
+def render_plan(request):
+    
+    if request.method == "POST":
+        user = request.user
+        plan = request.POST.get("plan")
+        print(plan)
+            
+        if plan == "monthly":
+            monthlyuser = MonthlyUser(userobj=user, comf_dettol=False, isActive=True)
+            monthlyuser.save()
+            yearlyuser = YearlyUser(userobj=user, comf_dettol=False, isActive=False)
+            yearlyuser.save()
+            credituser = CreditUser(userobj=user, isActive=False)
+            credituser.save()
+            messages.success(request, "Monthly plan activated")
+            return redirect("home")
+            
+        if plan == "yearly":
+            monthlyuser = MonthlyUser(userobj=user, comf_dettol=False, isActive=False)
+            monthlyuser.save()
+            yearlyuser = YearlyUser(userobj=user, comf_dettol=False, isActive=True)
+            yearlyuser.save()
+            credituser = CreditUser(userobj=user, isActive=False)
+            credituser.save()
+            messages.success(request, "Yearly plan activated")
+            return redirect("home")
+            
+        if plan == "credit":
+            monthlyuser = MonthlyUser(userobj=user, comf_dettol=False, isActive=False)
+            monthlyuser.save()
+            yearlyuser = YearlyUser(userobj=user, comf_dettol=False, isActive=False)
+            yearlyuser.save()
+            credituser = CreditUser(userobj=user, isActive=True)
+            credituser.save()
+            messages.success(request, "Credit plan activated")
+            return redirect("home")
+    
+    return render(request, "plan.html", {"uses_a_plan": get_plan(request)})

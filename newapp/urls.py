@@ -8,7 +8,7 @@ urlpatterns = [
     path("pricing", render_pricing, name="pricing"),
     path("contact", render_contact, name="contact"),
     path("login", render_login, name="login"),
-    path("forgotpassword", render_forgot_password, name="forgot_password"),
+    path("resetpassword", render_reset_password, name="reset_password"),
     path("register", render_register, name="register"),
     path("otp", render_otp, name="otp"),
     path("freepickup", render_free_pickup, name="free_pickup"),
@@ -19,4 +19,5 @@ urlpatterns = [
     path("useandpay", render_use_and_pay, name="use_and_pay"),
     path("eliteplus", render_elite_plus, name="elite_plus"),
     path("logout", render_logout, name="logout"),
+    path("plan", render_plan, name="plan"),
 ]

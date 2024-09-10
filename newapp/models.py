@@ -14,15 +14,6 @@ class Customer(models.Model):
     def __str__(self):
         return self.userobj.first_name + " " + self.userobj.last_name
     
-    
-class CreditUser(models.Model):
-    userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
-    credit_left = models.FloatField(default=500)
-    isActive = models.BooleanField()
-    
-    def __str__(self):
-        return self.userobj.first_name + " " + self.userobj.last_name
-    
 
 class Item(models.Model):
     item = models.CharField(max_length=50)
@@ -45,9 +36,20 @@ class Order(models.Model):
         return self.userobj.first_name + " " + self.userobj.last_name + " -> " + self.itemobj.item + " " + str(self.quantity) + " no.s"
 
 
+class CreditUser(models.Model):
+    userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    credit_left = models.FloatField(default=500)
+    datetime = models.DateTimeField(auto_now_add=True)
+    isActive = models.BooleanField()
+    
+    def __str__(self):
+        return self.userobj.first_name + " " + self.userobj.last_name
+    
+
 class YearlyUser(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     amt_left = models.FloatField(default=10000)
+    datetime = models.DateTimeField(auto_now_add=True)
     comf_dettol = models.BooleanField()
     isActive = models.BooleanField()
     
@@ -58,6 +60,7 @@ class YearlyUser(models.Model):
 class MonthlyUser(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     amt_left = models.FloatField(default=3000)
+    datetime = models.DateTimeField(auto_now_add=True)
     comf_dettol = models.BooleanField()
     isActive = models.BooleanField()
     
