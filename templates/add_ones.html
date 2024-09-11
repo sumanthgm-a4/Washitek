@@ -54,6 +54,8 @@
 </style>
 
 <body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
   <div class="banner">
     <img src="{% static 'images/background2.png' %}" alt="Banner Image">
   </div>
@@ -64,45 +66,60 @@
         {% include 'navbar.html' %}
       </div>
     </div>
+    <div class="container col-lg-6">
+      {% for i in messages %}
+      <div class="alert alert-{{ i.tags }}" role="alert">
+          {{ i }}
+      </div>
+      {% endfor %}
+  </div>
     <div class="container col-lg-5" style="padding-top: 10px;">
+      
       <div class="card">
-        <form method="POST"> {% csrf_token %}
+        <form method="POST" id="newform"> {% csrf_token %}
           <div class="card-header">
             <h3 class="text-center"><strong>Order Services</strong></h3>
           </div>
           <div class="card-body">
             <div class="mb-3">
               <label class="form-label" for="exampleCheck1">Kgs of clothes</label>
-              <input name="clothes" type="text" class="form-control" id="0">
+              <input name="clothes" type="text" class="form-control" id="clothes">
             </div>
             <h5><strong>Addons:</strong></h5>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1" name="comfort" value="1">
+              <input type="hidden" name="comfort" value="0">
+              <input type="checkbox" class="form-check-input" id="comfort" name="comfort" value="1">
               <label class="form-check-label" for="exampleCheck1">Comfort Extra</label>
             </div>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1" name="dettol" value="1">
+              <input type="hidden" name="dettol" value="0">
+              <input type="checkbox" class="form-check-input" id="dettol" name="dettol" value="1">
               <label class="form-check-label" for="exampleCheck1">Dettol Extra</label>
             </div>
             <div class="mb-3">
               <label class="form-label" for="iron">Iron</label>
-              <input name="iron" type="text" class="form-control" id="0" value="0">
+              <input name="iron" type="text" class="form-control" id="iron" value="0">
             </div>
             <div class="mb-3">
               <label class="form-label" for="iron">Bed Spread</label>
-              <input name="bedspread" type="text" class="form-control" id="0" value="0">
+              <input name="bedspread" type="text" class="form-control" id="bedspread" value="0">
             </div>
             <div class="mb-3">
               <label class="form-label" for="iron">Medium Blanket</label>
-              <input name="mediumblanket" type="text" class="form-control" id="0" value="0">
+              <input name="mediumblanket" type="text" class="form-control" id="mediumblanket" value="0">
             </div>
             <div class="mb-3">
               <label class="form-label" for="iron">Large Blanket</label>
-              <input name="largeblanket" type="text" class="form-control" id="0" value="0">
+              <input name="largeblanket" type="text" class="form-control" id="largeblanket" value="0">
             </div>
             <div class="card-footer">
-              <button type="submit" class="btn button-bg w-100 text-white fw-bold"
-                style="background: #006666;">Order</button>
+              
+
+              <button type="button" class="btn button-bg w-100 text-white fw-bold mb-2" style="background: #006666;"
+                id="checkprice">Check order price</button>
+
+              <button type="submit" class="btn button-bg w-100 text-white fw-bold" style="background: #006666;"
+                id="order">Order</button>
             </div>
           </div>
         </form>
@@ -112,7 +129,58 @@
   <br><br>
   {% include 'footer.html' %}
   </div>
+  <script>
+    $(document).ready(function () {
 
+      // Function to update hidden input based on checkbox state
+      function updateHiddenInputs() {
+        $('input[type=checkbox]').each(function () {
+          if (this.checked) {
+            $(this).siblings('input[type=hidden]').val('1'); // Set hidden value to '1' if checkbox is checked
+          } else {
+            $(this).siblings('input[type=hidden]').val('0'); // Set hidden value to '0' if checkbox is unchecked
+          }
+        });
+      }
+    
+      // Trigger when 'checkprice' button is clicked
+      $('#checkprice').click(function () {
+        // Update hidden inputs based on checkbox state before AJAX
+        updateHiddenInputs();
+    
+        // Perform AJAX call
+        $.ajax({
+          url: '/checkprice',
+          type: 'POST',
+          data: {
+            clothes: $('#clothes').val(),
+            comfort: $('input[name="comfort"]').val(), // Use the updated hidden value
+            dettol: $('input[name="dettol"]').val(), // Use the updated hidden value
+            iron: $('#iron').val(),
+            bedspread: $('#bedspread').val(),
+            mediumblanket: $('#mediumblanket').val(),
+            largeblanket: $('#largeblanket').val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+          success: function (response) {
+            if (response.nonechosen == 1 ) {
+              alert('Please select at least one service');
+            }
+            else if (response.noclothes == 1 ) {
+              alert('Please enter the number of clothes');
+            }
+            else if (response.nonechosen == 0 && response.noclothes == 0) {
+              alert('Total Price: ' + response.ordertotal + ' /-'); // Display the order total
+            }
+            },
+          error: function (xhr, errmsg, err) {
+            console.log(xhr.status + ": " + xhr.responseText);
+          }
+        });
+      });
+    });
+    
+  </script>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

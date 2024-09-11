@@ -81,12 +81,14 @@
                                     <h4>Active plan: {{ uses_a_plan }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-striped">
+                                    <div class="table-responsive">
+                                    <table class="table table-striped table-sm">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Order ID</th>
                                                 <th scope="col">Ordered on</th>
                                                 <th scope="col">Kgs of clothes</th>
+                                                <th scope="col">Order status</th>
                                                 <th scope="col">Order total</th>
                                                 
                                             </tr>
@@ -97,11 +99,13 @@
                                                 <td>{{ i.id }}</td>
                                                 <td>{{ i.orderdatetime }}</td>
                                                 <td>{{ i.clothes }} Kgs</td>
+                                                <td>{{ i.status }}</td>
                                                 <td>{{ i.totalprice }} /-</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
+                                </div>
                                 </div>
                             </div>
                         </div>

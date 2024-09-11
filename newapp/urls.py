@@ -24,4 +24,5 @@ urlpatterns = [
     path('otpverify',render_passwordotp,name='password_otp'),
     path('order',render_order,name='order'),
     path('vieworder', render_view_orders, name='view_orders'),
+    path('checkprice', check_price, name="check_price"),
 ]
