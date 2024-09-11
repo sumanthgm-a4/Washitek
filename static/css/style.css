@@ -1,0 +1,167 @@
+.contact-border{
+    border: 2px solid black;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.n-active {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.n-active::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    border-bottom: 2px solid black;
+}
+
+.txt-clr {
+    color: #006666;
+}
+
+.menu-bar {
+
+    border-bottom-style: none;
+    border-bottom-left-radius: 75px;
+    border-bottom-right-radius: 74px;
+    border-left: 5px;
+    border-right: 5px;
+    border: solid rgb(12, 92, 57) 10px;
+    border-top: 0px;
+    border-bottom: 0px;
+    height: 50%;
+
+}
+
+body {
+    /*background: url("../assets/background.png");*/
+
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+@media (max-width: 576px) {
+    .logo-bg {
+        background: white !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-margin {
+        margin: 1rem;
+    }
+}
+
+.green-font {
+    color: rgb(12, 69, 44);
+}
+
+.title-professional {
+    border: solid rgb(12, 69, 44) 5px;
+    border-right: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+
+}
+
+.caro-box {
+    height: 20rem;
+    width: 20rem;
+}
+
+.bg-footer {
+    background: rgba(0, 0, 0, 0.58);
+}
+
+.footer-ele-border {
+    border: 2px solid rgba(255, 255, 255, 0.404);
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 0px;
+
+}
+
+.font-clr {
+    color: #006666;
+
+}
+
+.button-bg {
+    background: #006666;
+}
+
+.nav-item:hover {
+    font-weight: bold;
+    color: #006666;
+}
+
+@media(max-width:576px) {
+    .outer-container {
+        display: flex;
+        justify-content: center;
+        align-items-center: center;
+    }
+}
+
+.icon-container-img {
+    filter: invert(100%);
+}
+
+.container-height {
+    height: 10rem;
+}
+
+.txt-color1 {
+    color: #ccffff;
+}
+
+.elevate-container {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.elevate-button {
+    background-color: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media(max-width:576px) {
+    .small-center{
+        display: flex;
+        justify-content: center;
+    }
+    
+}
+
+.custom-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.custom-list li {
+    position: relative;
+    padding-left: 20px;
+}
+
+.custom-list li::before {
+    content: "*";
+    position: absolute;
+    left: 0;
+    color: #000;
+}
+
+.aligning-text{
+    width: 100%;
+    text-align: justify;
+    text-align-last: justify;
+}
+.bg-row{
+    background-color:#ccffff;
+}

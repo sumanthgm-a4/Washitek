@@ -1,0 +1,91 @@
+{% load static %}
+
+
+<div class="container-fluid m-0" style="background-color: #003333;">
+    <div class="row m-0">
+        <div class="col-lg-4 d-flex justify-content-center mb-1">
+            <div class="">
+                <div class="d-flex justify-content-center">
+                    <img src="{% static 'images/logo_w.png' %}" height="100" alt="" srcset="">
+                </div>
+                <p class="text-white">Make the mess, we clean the stress</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <img class="px-2" src="{% static 'images/social.png' %}" height="30" alt="" srcset="">
+                    <img class="px-2" src="{% static 'images/instagram.png' %}" height="30" alt="" srcset="">
+                </div>
+                <div class="bg-light rounded-4 d-flex text-center justify-content-center pt-2 pb-2">
+                    <i class="fa-solid fa-phone-volume fa-lg px-2" style="color: #006666;"></i>
+                    <span class="fw-bolder px-1" style="color: #006666;">Call us</span>
+                    <span class="fw-bolder text-black" style="color: #ffffff;">8310813588</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 footer-ele-border rounded-5">
+            <div class="d-flex justify-content-center pt-4">
+                <i class="fa-solid fa-stopwatch fa-xl" style="color: #ffffff;"></i>
+            </div>
+            <div>
+                <p class="text-center text-light">8:00AM-9:00PM <br> Sunday Working (9:00AM-7:00PM)
+                </p>
+            </div>
+            <div class="d-flex justify-content-center pt-4">
+                <i class="fa-solid fa-location-dot fa-xl" style="color: #ffffff;"></i>
+            </div>
+            <div>
+                <p class="text-center text-light">Shobavana campus <br> Moodbidri Mangalore- 574227
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-5 d-flex justify-content-around">
+
+            <div class="col-lg-6 text-center text-light">
+                <h5 class="fw-bold txt-color1 mb-0 mt-2">Home</h5>
+                <div class="d-flex flex-column">
+                    <a href="{% url 'about' %}" class="p py-3 text-decoration-none txt-color1 opacity-75">About</a>
+                    <a href="{% url 'services' %}" class="p py-3 text-decoration-none txt-color1 opacity-75">Service</a>
+                    <a href="{% url 'pricing' %}" class="p py-3 text-decoration-none txt-color1 opacity-75">Pricing</a>
+                    <a href="{% url 'contact' %}" class="p py-3 text-decoration-none txt-color1 opacity-75">Contact</a>
+                </div>
+
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center justify-content-lg-start text-light">
+                <div class="text-start">
+                    <h5 class="fw-bold text-start txt-color1 mb-lg-3 mt-2">Services</h5>
+
+                    <a href="{% url 'free_pickup' %}" class="d-flex justify-content-between text-decoration-none opacity-75 txt-color1 pb-4">Free
+                        pick up <img src="{% static 'images/free_pick_up.png' %}" class="icon-container-img"
+                            style="width: 32px; height: 32px;" alt=""></a>
+                    <a href="{% url 'wash_and_dry' %}" class="d-flex justify-content-between text-decoration-none opacity-75 txt-color1 pb-4">
+                        <span>Wash and dry</span><img src="{% static 'images/wash_and_dry.png' %}" class="icon-container-img"
+                            style="width: 32px; height: 32px;" alt="">
+                    </a>
+                    <a href="{% url 'fold_and_iron' %}" class="d-flex justify-content-between text-decoration-none opacity-75 txt-color1 pb-4">
+                        <span>Fold and iron</span><img src="{% static 'images/fold_and_iron.png' %}" class="icon-container-img"
+                            style="width: 32px; height: 32px;" alt="">
+                    </a>
+                    <a href="{% url 'free_delivery' %}" class="d-flex justify-content-between text-decoration-none opacity-75 txt-color1 pb-4">
+                        <span>Free delivery</span><img src="{% static 'images/free_delivery.png' %}" class="icon-container-img"
+                            style="width: 32px; height: 32px;" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+function adjustLogoBackground() {
+    var logoBg = document.querySelector('.logo-bg');
+    if (window.innerWidth <= 576) {
+        logoBg.style.backgroundColor = 'white';
+    } else {
+        logoBg.style.backgroundColor = 'transparent';
+    }
+}
+
+window.addEventListener('resize', adjustLogoBackground);
+window.addEventListener('load', adjustLogoBackground);
+</script>
+<!--footer>
+
+</footer-->
