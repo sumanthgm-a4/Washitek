@@ -25,4 +25,7 @@ urlpatterns = [
     path('order',render_order,name='order'),
     path('vieworder', render_view_orders, name='view_orders'),
     path('checkprice', check_price, name="check_price"),
+    path('viewcustomers', render_view_customers, name="view_customers"),
+    path('customerorders/<int:cid>', render_customer_orders, name="customer_orders"),
+    path('update-order-status', update_order_status, name='update_order_status'),
 ]

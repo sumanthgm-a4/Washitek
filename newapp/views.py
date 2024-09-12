@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.db.utils import IntegrityError
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from random import randint
 
 
@@ -43,6 +44,9 @@ def get_plan(request):
     
     
 def render_home(request):
+    
+    if request.user.is_staff:
+        print("hello")
     
     return render(request, "index.html", {"uses_a_plan": get_plan(request)})
 
@@ -98,7 +102,7 @@ def render_login(request):
         messages.error(request, 'YOU LOGGED IN...')
         return redirect('home')
     
-    if request.user.is_superuser or request.user.is_staff:
+    if request.user.is_superuser:
         return redirect('admin')
     
     if request.method == 'POST':
@@ -126,7 +130,7 @@ def render_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                if user.is_superuser or user.is_staff:
+                if user.is_superuser:
                     return redirect('/admin')
                 messages.success(request, 'Logged in successfully')
                 return redirect('home') 
@@ -426,8 +430,8 @@ def render_order(request):
         
         user = request.user
         totalprice = clothes*items["clothes"] + \
-                        comfort*items["comfort"] + \
-                        dettol*items["dettol"] + \
+                        clothes*comfort*items["comfort"] + \
+                        clothes*dettol*items["dettol"] + \
                         iron*items["iron"] + \
                         bedspread*items["bedspread"] + \
                         mediumblanket*items["mediumblanket"] + \
@@ -509,8 +513,8 @@ def check_price(request):
             noclothes = 1
         
         totalprice = clothes*items["clothes"] + \
-                        comfort*items["comfort"] + \
-                        dettol*items["dettol"] + \
+                        clothes*comfort*items["comfort"] + \
+                        clothes*dettol*items["dettol"] + \
                         iron*items["iron"] + \
                         bedspread*items["bedspread"] + \
                         mediumblanket*items["mediumblanket"] + \
@@ -525,3 +529,37 @@ def render_view_orders(request):
     orders = Order.objects.filter(userobj=user)[::-1]
     
     return render(request, "view_orders.html", {"orders": orders, "uses_a_plan": get_plan(request)})
+
+
+def render_view_customers(request):
+    
+    customers = Customer.objects.all()
+    
+    return render(request, "view_customers.html", {"customers": customers, "uses_a_plan": get_plan(request)})
+
+
+def render_customer_orders(request, cid):
+    
+    orders = Order.objects.filter(userobj=Customer.objects.get(id=cid).userobj)[::-1]
+    
+    return render(request, "customer_orders.html", {"orders": orders})
+
+
+@csrf_exempt  # Exempt from CSRF if needed, or ensure CSRF token is passed
+def update_order_status(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        status = request.POST.get('status')
+
+        try:
+            # Get the order and update its status
+            order = Order.objects.get(id=order_id)
+            order.status = status
+            order.save()
+
+            return JsonResponse({'message': 'Order status updated successfully!'})
+        
+        except Order.DoesNotExist:
+            return JsonResponse({'message': 'Order not found!'}, status=404)
+        
+    return JsonResponse({'message': 'Invalid request'}, status=400)
