@@ -88,7 +88,7 @@ def render_contact(request):
             from_email=email, 
             subject=f"Mail from {firstname} {lastname} - {email}",
             message=message,
-            recipient_list=['sumanthgm12345@gmail.com'],
+            recipient_list=['brijeshkhreddy@gmail.com'],
             fail_silently=False
         )
         messages.success(request, "Mail sent successfully")
@@ -547,6 +547,7 @@ def render_customer_orders(request, cid):
 
 @csrf_exempt  # Exempt from CSRF if needed, or ensure CSRF token is passed
 def update_order_status(request):
+    
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
         status = request.POST.get('status')
@@ -563,3 +564,24 @@ def update_order_status(request):
             return JsonResponse({'message': 'Order not found!'}, status=404)
         
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
+def render_download_data(request):
+    
+    orders = Order.objects.all()
+    colleges = [i.userobj.customer.college for i in orders]
+    colleges = list(set(colleges))
+    colleges.append("All Colleges")
+    print(colleges)
+    
+    if request.method == "POST":
+        selected_value = request.POST.get('selected_value')
+        print(selected_value)
+        if selected_value == "All Colleges":
+            orders = Order.objects.all()
+        elif selected_value:
+            orders = Order.objects.filter(userobj__customer__college=selected_value)
+            print(orders)
+        data = list(orders.values('id', 'userobj__first_name', 'userobj__last_name', 'userobj__email', 'userobj__customer__college', 'orderdatetime', 'clothes', 'status', 'totalprice'))
+        return JsonResponse(data, safe=False)
+    return render(request, "download_data.html", {"orders": orders, "colleges": colleges})
