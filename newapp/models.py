@@ -26,6 +26,7 @@ class Customer(models.Model):
 # Custom ManyToMany relationship between User and Item
 class Order(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    usertype = models.CharField(max_length=20)
     # itemobj = models.ForeignKey(Item, on_delete=models.CASCADE)
     orderdatetime = models.DateTimeField(auto_now_add=True)
     clothes = models.IntegerField()
@@ -42,20 +43,21 @@ class Order(models.Model):
         return self.userobj.first_name + " " + self.userobj.last_name + " " + str(self.clothes) + " no.s" + " " + str(self.totalprice)
 
 
-class CreditUser(models.Model):
-    userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
-    credit_left = models.FloatField(default=500)
-    datetime = models.DateTimeField(auto_now_add=True)
-    isActive = models.BooleanField()
-    
-    def __str__(self):
-        return self.userobj.first_name + " " + self.userobj.last_name
+# class CreditUser(models.Model):
+#     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+#     credit_left = models.FloatField(default=500)
+#     datetime = models.DateTimeField(auto_now_add=True)
+#     isActive = models.BooleanField()
+#
+#     def __str__(self):
+#         return self.userobj.first_name + " " + self.userobj.last_name
     
 
 class YearlyUser(models.Model):
     userobj = models.ForeignKey("auth.User", on_delete=models.CASCADE)
-    amt_left = models.FloatField(default=10000)
+    kgs_left = models.FloatField()
     datetime = models.DateTimeField(auto_now_add=True)
+    conditioner = models.CharField(max_length=20)
     isActive = models.BooleanField()
     
     def __str__(self):
